@@ -1,0 +1,18 @@
+{% load compress %}
+{% load staticfiles %}
+
+{% compress css %}
+<link rel="stylesheet" type="text/css" href="{% static 'bower_components/bootstrap/dist/css/bootstrap.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'bower_components/bootstrap-material-design/dist/css/material.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'bower_components/bootstrap-material-design/dist/css/ripples.min.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'bower_components/ngDialog/css/ngDialog.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'bower_components/ngDialog/css/ngDialog-theme-default.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'bower_components/angular-material/angular-material.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'bower_components/angular-chart.js/dist/angular-chart.min.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'bower_components/angular-resizable/angular-resizable.min.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'bower_components/angular-bootstrap-nav-tree/dist/abn_tree.css' %}" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic">
+
+<link rel="stylesheet" type="text/css" href="{% static 'lib/snackbarjs/snackbar.min.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'stylesheets/styles.css' %}" />
+{% endcompress %}

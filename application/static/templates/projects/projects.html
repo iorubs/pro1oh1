@@ -1,0 +1,63 @@
+<div ng-app="projects" ng-controller="ProjectsController" class="md-whiteframe-5dp tab_options" layout="column" ng-cloak="" flex>
+  <md-content class="md-padding" flex>
+
+    <div layout="row" layout-xs="column">
+      <div style="margin-right: 50px; width:40%;">
+        <h1 class="medium_header">Select Existing Project</h1>
+        <div ng-repeat="p in projects track by $index">
+          <md-list-item ng-click="open($index)">
+            <p> {{p.title}} </p>
+            <md-divider ng-if="!$last"></md-divider>
+          </md-list-item>
+        </div>
+      </div>
+      <div layout="column" flex>
+        <div flex>
+          <h1 class="medium_header">Create New Project</h1>
+          <div layout="column">
+            <md-input-container style="width:50%;">
+              <label for="label">Project Title</label>
+              <input id="label" ng-model="title" type="text">
+              <div ng-messages="label.$error">
+                <div ng-message="unique">Project names must be unique.</div>
+              </div>
+            </md-input-container>
+            <md-button id="createProB" ng-click="new_proj(title)" ng-disabled="!title" class="stats_btn" style="width:100px;" type="submit" >Create</md-button>
+          </div>
+        </div>
+        <div flex>
+          <br>
+          <br>
+          <h1 class="medium_header">Clone GitHub Project</h1>
+          <div layout="row">
+            <div layout="column" flex>
+              <md-input-container style="width:80%;">
+                <label for="gtURL">Repo HTTPS URL</label>
+                <input id="gtURL" ng-model="gitURL" type="text">
+              </md-input-container>
+              <md-input-container style="width:80%;">
+                <label for="gBranch">GitHub Branch</label>
+                <input id="gBranch" ng-model="gitBranch" type="text">
+              </md-input-container>
+            </div>
+            <div layout="column" flex>
+              <md-input-container style="width:80%;">
+                <label for="gUsername">GitHub Username</label>
+                <input id="gUsername" ng-model="gitUsername" type="text">
+              </md-input-container>
+              <md-input-container style="width:80%;">
+                <label for="gPassword">GitHub Password</label>
+                <input type="password" id="gPassword" ng-model="gitPassword" type="text">
+              </md-input-container>
+            </div>
+          </div>
+
+          <div layout="row"  layout-align="start center">
+            <md-button id="cloneProB" ng-click="clone_proj(gitURL, gitBranch, gitUsername, gitPassword)" ng-disabled="!gitURL" class="stats_btn" style="width:100px;" type="submit" >Clone</md-button>
+            <md-progress-circular class="md-warn" ng-show="clonning" md-mode="indeterminate" md-diameter="60"></md-progress-circular>
+          </div>
+        </div>
+      </div>
+    </div>
+  </md-content>
+</div>

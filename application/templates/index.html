@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html ng-app="pro1oh1">
+<head>
+  <title>Pro1oh1</title>
+
+  <base href="/" />
+
+  <link rel="icon" href="/static/templates/images/favicon.ico" type="image/x-icon" />
+
+  {% include 'stylesheets.html' %}
+</head>
+
+<body>
+  {% include 'navbar.html' %}
+
+  <div class="ng-view" layout="column" layout-margin></div>
+
+  {% include 'javascripts.html' %}
+</body>
+</html>

@@ -1,0 +1,24 @@
+<div class="md-whiteframe-5dp tab_options md-padding" layout="row" ng-cloak="" flex>
+  <md-content class="md-padding" flex>
+    <h1 class="main_header">User Profile</h1>
+    <md-content class="md-padding" flex>
+    <table style="width:400px">
+     <tr>
+       <td><h1 class="medium_header">Username:</h1></td>
+       <td><p> {{ vm.profile.username }} </p></td>
+     </tr>
+     <tr>
+       <td><h1 class="medium_header">Email:</h1></td>
+       <td><p> {{ vm.profile.email }} </p></td>
+     </tr>
+     <tr>
+       <td><h1 class="medium_header">Member since:</h1></td>
+       <td><p> {{ vm.profile.created_on }} </p></td>
+     </tr>
+    </table>
+    </md-content>
+  </md-content>
+  <md-content layout="row" layout-align="space-around center" class="md-padding" flex>
+    <img src="static/templates/images/profile.jpg" alt="Profile Pic" style="width:230px;height:240px;">
+  </md-content>
+</div>

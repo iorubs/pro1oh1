@@ -1,0 +1,39 @@
+<nav class="navbar navbar-default" role="navigation" ng-controller="NavbarController as vm">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#pro1oh1-nav">
+        <span class="sr-only">Toggle Navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/">Pro1oh1</a>
+      <img src="static/templates/images/Turtle-48.png" alt="turtles rock">
+    </div> <!-- ./navbar-header -->
+
+    <div class="collapse navbar-collapse" id="pro1oh1-nav">
+      <ul class="nav navbar-nav pull-right">
+        <li><a href="/">Home</a></li>
+
+        {% if user.is_authenticated %}
+          <li><a href="/my-projects">My projects</a></li>
+          <li><a href="/compare">Compare</a></li>
+          <li><a href="/quick-run">Quick Run</a></li>
+        {% else %}
+          <li><a href="/quick-run">Try me!</a></li>
+        {% endif %}
+
+        <li><a href="/tutorials">Tutorials</a></li>
+
+        {% if user.is_authenticated %}
+          <li><a href="/{{ user.username }}/settings">Settings</a></li>
+          <li><a href="/{{ user.username }}">{{ user.username }}</a></li>
+          <li><a href="javascript:void(0)" ng-click="vm.logout()">Logout</a></li>
+        {% else %}
+          <li><a href="/login">Login</a></li>
+          <li><a href="/register">Register</a></li>
+        {% endif %}
+      </ul>
+    </div> <!-- /.collapse.navbar-collapse -->
+  </div> <!-- /.container-fluid -->
+</nav>

@@ -1,0 +1,22 @@
+version: '2'
+
+services:
+  webapp:
+    build: .
+    command: webapp
+    environment:
+      - HOST_PATH=$PWD/application
+    volumes:
+      - ./application:/src/pro1oh1
+      - /sys/fs/cgroup:/cgroup
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - "8000:8000"
+  redis:
+    image: redis:3.2.3-alpine
+  celery_worker:
+    build: .
+    command: worker
+    volumes:
+      - ./application:/src/pro1oh1
+      - /var/run/docker.sock:/var/run/docker.sock

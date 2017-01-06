@@ -1,0 +1,38 @@
+<div class="row">
+  <div class="col-md-4 col-md-offset-4">
+    <h1>Register</h1>
+
+    <div class="well">
+      <form role="form" ng-submit="vm.register()">
+        <div class="form-group">
+          <label for="register__email">Email</label>
+          <input type="email" class="form-control" id="register__email" ng-model="vm.email" placeholder="ex. pro1oh1@mail.com" />
+        </div>
+
+        <div class="form-group">
+          <label for="register__username">Username</label>
+          <input type="text" class="form-control" id="register__username" ng-model="vm.username" placeholder="ex. YOLOSWAGMASTA420" />
+        </div>
+
+        <div class="form-group">
+          <label for="register__password" style="color: {{pass2_field_color}};">Password</label>
+          <input type="password" class="form-control" id="register__password" ng-model="vm.password" placeholder="ex. Blaziken024" />
+        </div>
+
+        <div class="form-group">
+          <label for="register__password2" style="color: {{pass2_field_color}};">Re-enter password</label>
+          <input type="password" class="form-control" id="register__password2" ng-model="vm.password2" placeholder="ex. Blaziken024" />
+        </div>
+
+        <div layout="collumn"  layout-align="space-between center" >
+          <div class="form-group">
+            <button type="submit" ng-disabled="!vm.email || !vm.username || !vm.password || !vm.password2" id="register" class="btn btn-primary">Submit</button>
+          </div>
+          <div ng-messages="label.$error">
+            <div ng-message="unique" style="color: red;">{{error_message}}</div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

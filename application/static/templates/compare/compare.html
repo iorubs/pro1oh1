@@ -1,0 +1,241 @@
+<div ng-app="quick-run" ng-controller="QuickRunController" class="md-whiteframe-5dp tab_options" layout="column" ng-cloak="" flex>
+
+  <md-content class="md-padding" flex>
+    <md-tabs md-dynamic-height="" md-selected="selectedIndex" md-border-bottom="" md-autoselect="">
+      <md-tab ng-repeat="tab in tabs" ng-disabled="tab.disabled" label="{{tab.title}}">
+        <label for="language">Mode</label>
+        <select name="language" id="language" ng-model="mode" ng-options="m for m in modes" ng-change="modeChanged( mode )"></select>
+
+        <md-button id="runB" class="md-raised" aria-label="Run" ng-show="!runCancel && !runCancel2" ng-click="runCode()">
+          <img src="static/templates/images/run-green-24.png" alt="Run">
+          <md-tooltip md-direction="top">Run</md-tooltip>
+        </md-button>
+
+        <md-button class="md-raised" aria-label="Cancel" ng-show="runCancel || runCancel2" ng-click="cancelRun()">
+          <img src="static/templates/images/pause-24.png" alt="Cancel">
+          <md-tooltip md-direction="top">Cancel Run</md-tooltip>
+        </md-button>
+
+        <md-button class="md-raised" aria-label="Stats" ng-click="showAdvanced()">
+          <img src="static/templates/images/stats-24.png" alt="Stats">
+          <md-tooltip md-direction="top">Stats</md-tooltip>
+        </md-button>
+
+        <md-button id="runStaticB" class="md-raised" ng-hide="no_linter(mode)" aria-label="Static Run" ng-click="staticRun()">
+          <img src="static/templates/images/bug-24.png" alt="Static Run">
+          <md-tooltip md-direction="top">Static Run</md-tooltip>
+        </md-button>
+
+        <md-button id="addTabB" class="md-raised" aria-label="Add tab" ng-click="add()">
+          <img src="static/templates/images/add-24.png" alt="Add">
+          <md-tooltip md-direction="top">Add tab</md-tooltip>
+        </md-button>
+
+        <md-button id="settingsB" class="md-raised" aria-label="Options" ng-click="toggleOptions()">
+          <img src="static/templates/images/services-24.png" alt="Options">
+          <md-tooltip md-direction="top">Options</md-tooltip>
+        </md-button>
+
+        <md-button id="closeTabB" class="md-raised" aria-label="Close Tab" ng-hide="tabs.length <= 2" ng-click="removeTab()">
+          <img src="static/templates/images/x-mark-3-24.png" alt="Close Tab">
+          <md-tooltip md-direction="top">Close Tab</md-tooltip>
+        </md-button>
+
+
+        <div flex>
+          <div ng-style="{ height: windowHeight-400 }" ui-ace="aceOption" ng-model="aceModel" ></div>
+        </div>
+      </md-tab>
+    </md-tabs>
+    <div style="margin-top: 15px;">
+      <table style="width:100%; table-layout:fixed;">
+       <tr>
+         <td><section class="terminal">
+         <md-progress-linear ng-show="runCancel || runningStatic" md-mode="indeterminate"></md-progress-linear>
+           <p ng-repeat="t in text track by $index"> {{t}}</p>
+         </section></td>
+         <td><section class="terminal" style="margin-left: 15px;">
+         <md-progress-linear ng-show="runCancel2 || runningStatic2" md-mode="indeterminate"></md-progress-linear>
+           <p ng-repeat="t in text2 track by $index"> {{t}}</p>
+         </section></td>
+       </tr>
+      </table>
+    </div>
+  </md-content>
+
+  <md-sidenav class="md-sidenav-right md-whiteframe-z2" md-component-id="editorOptions" flex>
+    <md-toolbar class="md-warn">
+      <h1 class="md-toolbar-tools">Editor Options</h1>
+    </md-toolbar>
+    <md-content layout-padding="">
+      <p><form ng-submit="addTab(tTitle)" layout="column" class="md-padding" style="padding-top: 0;">
+        <div layout="column" layout-sm="column">
+          <md-input-container>
+            <label for="label">File Name</label>
+            <input id="label" ng-model="tTitle" type="text">
+            <div ng-messages="label.$error">
+              <div ng-message="unique">Enter just the name with no prefix.</div>
+            </div>
+          </md-input-container>
+          <md-button id="addFileEditorB" class="add-tab stats_btn" ng-disabled="!tTitle" type="submit">Add New File</md-button>
+        </div></p>
+        <p></p>
+        <label for="theme">Theme</label>
+        <select name="theme" id="theme" ng-model="theme" ng-options="t for t in themes" ng-change="changeTheme( theme )"></select>
+        <br>
+        <label for="wrap">Wrapping</label>
+        <select name="wrap" id="wrap" ng-model="wrap_val" ng-options="w for w in wrapOptions" ng-change="setWrapOption( wrap_val )"></select>
+        <br>
+        <div layout="row" layout-align="start center">
+          <div flex>
+            <label for="completionSwitch">Auto completion: </label>
+          </div>
+          <div flex>
+            <md-switch name="completionSwitch"  ng-model="auto_completion" aria-label="Switch AutoCompletion">
+            </md-switch>
+          </div>
+        </div>
+        <br>
+        <md-button id="closeSettingsB" ng-click="close()" class="md-primary">Close.</md-button>
+      </form>
+    </md-content>
+  </md-sidenav>
+
+  <script type="text/ng-template" id="add.tmpl.html">
+    <md-dialog aria-label="Add" ng-cloak style="min-width: 300px;">
+      <form>
+        <md-toolbar>
+          <div class="md-toolbar-tools" style="background: #2196f3;">
+            <h2>File adder</h2>
+            <span flex></span>
+            <md-button class="md-icon-button" aria-label="Close" ng-click="cancel()">
+              <img src="static/templates/images/x-mark-3-16.png" alt="Close">
+            </md-button>
+          </div>
+        </md-toolbar>
+        <md-dialog-content>
+          <div class="md-dialog-content">
+            <md-input-container>
+              <label for="label">File Name</label>
+              <input id="label" ng-model="tTitle" type="text">
+              <div ng-messages="label.$error">
+                <div ng-message="unique">Enter just the name with no prefix.</div>
+              </div>
+            </md-input-container>
+            <div layout="row" layout-align="end center">
+              <md-button class="add-tab stats_btn" ng-disabled="!tTitle" ng-click="addTab(tTitle)">Add</md-button>
+            </div>
+          </div>
+        </md-dialog-content>
+      </form>
+    </md-dialog>
+  </script>
+
+  <script type="text/ng-template" id="stats.tmpl.html">
+    <md-dialog aria-label="Stats" ng-cloak>
+      <form>
+        <md-toolbar>
+          <div class="md-toolbar-tools stats_window">
+            <h2>Stats</h2>
+            <span flex></span>
+            <md-button class="md-icon-button" aria-label="Close options" ng-click="cancel()">
+              <img src="static/templates/images/x-mark-3-16.png" alt="Close options">
+              <md-tooltip md-direction="top">Close</md-tooltip>
+            </md-button>
+          </div>
+        </md-toolbar>
+
+        <md-dialog-content style="min-width:600px;min-height:450px;">
+        <md-tabs md-dynamic-height="" md-border-bottom="">
+          <md-tab label="Overview">
+            <md-content class="md-padding">
+              <table style="width:100%">
+                <tr>
+                  <td>Metric</td>
+                  <td>{{tabs[0].title}}</td>
+                  <td>{{tabs[1].title}}</td>
+                </tr>
+                <tr>
+                  <td>Runtime (seconds):</td>
+                  <td>{{runtime}}</td>
+                  <td>{{runtime2}}</td>
+                </tr>
+                <tr>
+                  <td>CPU usage (nanoseconds):</td>
+                  <td>{{total_cpu_usage}}</td>
+                  <td>{{total_cpu_usage2}}</td>
+                </tr>
+                <tr>
+                  <td>RAM used (bytes):</td>
+                  <td>{{total_memory_usage}}</td>
+                  <td>{{total_memory_usage2}}</td>
+                </tr>
+              </table>
+            </md-content>
+          </md-tab>
+          <md-tab label="CPU">
+            <md-content class="md-padding">
+              <p>CPU usage in nanoseconds.</p>
+              <canvas id="line" class="chart chart-line" chart-colours="colors" chart-data="data_cpu" ng-click="getCpu" chart-labels="labels" chart-legend="true" chart-series="series_cpu"></canvas>
+              <div layout="row" layout-align="space-between" ng-hide="stats.length <= 30 && stats2.length <= 30">
+                <md-button class="md-icon-button md-raised" aria-label="Show Less" ng-hide="stats_interval == 10" ng-click="stats_less_detail()">
+                  <img src="static/templates/images/show-less-24.png" alt="Show Less">
+                  <md-tooltip md-direction="right">Show Less Detail</md-tooltip>
+                </md-button>
+                <md-button class="md-icon-button md-raised" aria-label="Show More" ng-hide="stats_interval == 1" ng-click="stats_more_detail()">
+                  <img src="static/templates/images/show-more-24.png" alt="Show More">
+                  <md-tooltip md-direction="left">Show More Detail</md-tooltip>
+                </md-button>
+              </div>
+            </md-content>
+          </md-tab>
+          <md-tab label="RAM">
+            <md-content class="md-padding">
+              <p>RAM memory usage.</p>
+              <canvas id="line" class="chart chart-line" chart-colours="colors" chart-data="data_ram" chart-labels="labels" chart-legend="true" chart-series="series_ram"></canvas>
+              <div layout="row" layout-align="space-between" ng-hide="stats.length <= 30 && stats2.length <= 30">
+                <md-button class="md-icon-button md-raised" aria-label="Show Less" ng-hide="stats_interval == 10" ng-click="stats_less_detail()">
+                  <img src="static/templates/images/show-less-24.png" alt="Show Less">
+                  <md-tooltip md-direction="right">Show Less Detail</md-tooltip>
+                </md-button>
+                <md-button class="md-icon-button md-raised" aria-label="Show More" ng-hide="stats_interval == 1" ng-click="stats_more_detail()">
+                  <img src="static/templates/images/show-more-24.png" alt="Show More">
+                  <md-tooltip md-direction="left">Show More Detail</md-tooltip>
+                </md-button>
+              </div>
+            </md-content>
+          </md-tab>
+          <md-tab label="Disk Memory">
+            <md-content class="md-padding">
+              <p>Disk memory usage.</p>
+              <canvas id="line" class="chart chart-line" chart-colours="colors" chart-data="data_disk" chart-labels="labels" chart-legend="true" chart-series="series_disk"></canvas>
+              <div layout="row" layout-align="space-between" ng-hide="stats.length <= 30 && stats2.length <= 30">
+                <md-button class="md-icon-button md-raised" aria-label="Show Less" ng-hide="stats_interval == 10" ng-click="stats_less_detail()">
+                  <img src="static/templates/images/show-less-24.png" alt="Show Less">
+                  <md-tooltip md-direction="right">Show Less Detail</md-tooltip>
+                </md-button>
+                <md-button class="md-icon-button md-raised" aria-label="Show More" ng-hide="stats_interval == 1" ng-click="stats_more_detail()">
+                  <img src="static/templates/images/show-more-24.png" alt="Show More">
+                  <md-tooltip md-direction="left">Show More Detail</md-tooltip>
+                </md-button>
+              </div>
+            </md-content>
+          </md-tab>
+          <md-tab label="App1 Core Usage">
+            <md-content class="md-padding">
+              <p>Total number of nanoseconds spent by each core running {{tabs[0].title}}</p>
+              <canvas id="doughnut" class="chart chart-doughnut" chart-data="data_core_total" chart-labels="labels_core_total" chart-legend="true"></canvas>
+            </md-content>
+          </md-tab>
+          <md-tab label="App2 Core Usage">
+            <md-content class="md-padding">
+              <p>Total number of nanoseconds spent by each core running {{tabs[1].title}}</p>
+              <canvas id="doughnut" class="chart chart-doughnut" chart-data="data_core_total2" chart-labels="labels_core_total" chart-legend="true"></canvas>
+            </md-content>
+          </md-tab>
+        </md-tabs>
+        </md-dialog-content>
+      </form>
+    </md-dialog>
+  </script>
+</div>

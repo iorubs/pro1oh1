@@ -1,0 +1,131 @@
+<div ng-controller="HomeController" ng-cloak="" style="margin-top: -15px;" flex>
+  <div class="home-page" layout="column" >
+
+    <md-content layout="row" style='min-width: 1100px;' class="md-padding" flex>
+      <div class="md-padding" style='width: 50%;'>
+        <h1 class="main_header">Bring your IDE everywhere.</h1>
+        <h1 class="medium_header">Pro1oh1 the new development environment in the cloud.</h1>
+        <p>A super friendly development environment, that allows you to learn, develop, store, run, </p>
+        <p>and compare programming projects in a variety of languages.</p>
+        <h1 class="medium_header">Bring your IDE everywhere you go. <img src="static/templates/images/Turtle-96.png" alt="turtles rock"></h1>
+      </div>
+      <div style='width: 50%;'>
+        <img src="/static/templates/home/images/home_1.png" class="center fit" />
+      </div>
+    </md-content>
+
+    <div layout="row">
+      <div style=''>
+        <img src="/static/templates/home/images/home_2.png" class="center fit" />
+      </div>
+      <div class=" center fit">
+        <img src="/static/templates/home/images/arrow.png" class=" center fit" />
+      </div>
+    </div>
+
+    <section style="background-color: #2196f3;">
+      <img style='height: 500px;' src="/static/templates/home/images/docker.png" class="center fit" du-parallax x="docker_x" alt="" />
+    </section>
+
+    <md-content layout="row" class="md-padding" flex>
+      <div class="md-padding" flex>
+        <h1 class="main_header">Docker:</h1>
+        <h1 class="medium_header">How Docker made it all possible:</h1>
+        <p>A lot of tools were used to develope pro1oh1, but the one that made it all possible was Docker.</p>
+        <p>Without it, creating sandboxed environments, running user applications and collecting stats would have been too complex.</p>
+        <p>One of the end goals is to one day fully dockerize the application. So I can share it with the world.</p>
+
+        <h1 class="medium_header">What's docker?</h1>
+        <p>Docker is an open-source project that automates the deployment of applications inside software containers,
+           by providing an additional layer of abstraction and automation of operating-system-level virtualization on Linux.</p>
+
+        <h1 class="medium_header">Docker Hub:</h1>
+        <p>The Docker Hub lets developers store and distribute their images with ease. Over 1.4 billion images pulls have already
+           taken place.</p>
+        <p>Many of the images available, come straight from official sources like Google and Oracle, with pre-baked tools.</p>
+
+        <h1 class="medium_header">Language Compatibility:</h1>
+        <p>13 programming languages are supported for now.</p>
+        <br>
+        <div layout="row" flex>
+          <div flex>
+            <p>Python</p>
+            <p>Java</p>
+            <p>Go</p>
+          </div>
+          <div flex>
+            <p>C</p>
+            <p>C++</p>
+            <p>Objective-C</p>
+          </div>
+          <div flex>
+            <p>Bash</p>
+            <p>Perl</p>
+            <p>Ruby</p>
+          </div>
+          <div flex>
+            <p>Scala</p>
+            <p>Lisp</p>
+            <p>Prolog</p>
+          </div>
+          <div flex>
+            <p>Haskell</p>
+            <p>More coming soon...</p>
+          </div>
+        </div>
+      </div>
+      <div class="md-padding" flex>
+        <h1 class="main_header">Used Tools & Languages:</h1>
+        <h1 class="medium_header">Front-end:</h1>
+        <div layout="row" flex>
+          <div flex>
+            <p>AngularJS</p>
+            <p>Bootstrap</p>
+            <p>HTML</p>
+            <p>CSS</p>
+          </div>
+          <div flex>
+            <p>Ace-9 Editor</p>
+            <p>Bower</p>
+            <p>Angular Material</p>
+            <p>Angular Youtube Embed</p>
+          </div>
+          <div flex>
+            <p>Angular Chart</p>
+            <p>Angular Parallax</p>
+            <p>Angular Bootstrap Nav Tree</p>
+            <p>and a few more ...</p>
+          </div>
+        </div>
+        <h1 class="medium_header">Back-end:</h1>
+        <div layout="row" flex>
+          <div flex>
+            <p>Docker</p>
+            <p>Python (Django)</p>
+            <p>SQLite</p>
+          </div>
+          <div flex>
+            <p>Celery</p>
+            <p>Redis</p>
+            <p>and a few more ...</p>
+          </div>
+          <div flex>
+
+          </div>
+        </div>
+
+        <h1 class="medium_header">Browser Compatibility:</h1>
+        <p><img height="45" width="45" src="static/templates/home/images/Chrome.png" alt="Chrome">100% &emsp;&emsp;
+          <img height="39" width="39" src="static/templates/home/images/Firefox.png" alt="Chrome"> 100% &emsp;&emsp;
+           Other: Unknown</p>
+        <p>If you happen to use a different browser let us know about your experience.</p>
+        <br>
+        <h1 class="medium_header">Registered Users: {{user_count}}</h1>
+      </div>
+    </md-content>
+
+    <div style=' background-color:#2196f3; width: 100%; height: 350px;'>
+      <div ng-parallax style=' width: 100%; height: 100%; position: absolute;' pattern="myPattern" speed="0" reverse="true"></div>
+    </div>
+  </div>
+</div>
