@@ -1,5 +1,6 @@
 # Pro1oh1 ODE.
-######(online development environment)
+###### Warning this was done for a project in college, a lot of the code sucks as it was my first time using pretty much all these new tools and languages.
+###### (online development environment)
 
 ## Instructions
 1- Install docker and docker-compose.  
