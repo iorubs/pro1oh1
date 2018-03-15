@@ -1,5 +1,5 @@
 # Pro1oh1 ODE.
-###### Warning this was done for a project in college, a lot of the code sucks as it was my first time using pretty much all these new tools and languages. I'm considering redeveloping the idea from scratch.
+###### Warning this was done for a project in college, a lot of the code sucks as it was my first time using pretty much all these new tools and languages.
 ###### (online development environment)
 
 ## Instructions
