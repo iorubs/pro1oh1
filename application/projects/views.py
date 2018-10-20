@@ -24,11 +24,11 @@ def cloneGitProjectView(request):
     ret = {}
 
     location = running_dir()
-    clone_command = 'cd ' + location[0] + ' && ' + data['git_clone']
+    clone_command = 'cd ' + location[0] + ' && ' + data['clone_command']
     status, output = commands.getstatusoutput(clone_command)
 
     if status == 0:
-        traversePojectFolder(location[0], request.user, data['git_enc'])
+        traversePojectFolder(location[0], request.user, data['clone_command'])
         ret = {'status': 'Success'}
     else:
         ret = {'status': 'Fail', 'error': output}

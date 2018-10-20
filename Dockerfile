@@ -6,7 +6,8 @@ EXPOSE  8000
 # Update
 RUN apk add --update \
     python \
-    py-pip
+    py-pip \
+    git
 
 # Install app dependencies
 COPY ./application/requirements.txt /tmp
