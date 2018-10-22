@@ -1,58 +1,52 @@
-FROM ubuntu
+FROM ubuntu:18.04
 MAINTAINER Ruben Vasconcelos
 
-# Install Java.
-RUN \
-  apt-get update && \
-  apt-get install -y default-jdk && \
-  rm -rf /var/lib/apt/lists/*
+ENV DEBIAN_FRONTEND noninteractive
 
-#Install pylint and cpplint
-RUN \
-  apt-get update && \
-  apt-get install -y pylint python-pip && \
-  pip install cpplint
+# Patch and install system dependecies
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+      default-jdk \
+      pylint \
+      python-pip \
+      g++ \
+      gcc \
+      libc6-dev \
+      make \
+      curl \
+      git \
+      libperl-critic-perl \
+      ruby \
+      cabal-install \
+    && rm -rf /var/lib/apt/lists/*
 
-# gcc for cgo
-RUN apt-get update && apt-get install -y --no-install-recommends \
-		g++ \
-		gcc \
-		libc6-dev \
-		make \
-    curl \
-    git \
-	&& rm -rf /var/lib/apt/lists/*
-
-RUN add-apt-repository ppa:ubuntu-lxc/lxd-stable && \
-    apt-get update && \
-    apt-get install golang
-
-RUN go get -u github.com/golang/lint/golint
-
-# checkspell
-RUN apt-get update && apt-get install -y cabal-install && \
-    cabal update && cabal install shellcheck
-
-
-# Define working directory.
-COPY ./Archive.zip /usr/src/app
 WORKDIR /usr/src/app
-RUN tar -zxvf Archive.tar.gz
-
-RUN export PATH=$PATH:/usr/src/app
-RUN export CLASSPATH=$CLASSPATH:/usr/src/app/checkstyle-6.13-all.jar
-RUN export PATH=$PATH:/usr/src/app/checkstyle-6.13-all.jar
-RUN cp /usr/src/app/oclint-0.10.2/bin/oclint* /usr/local/bin/
-RUN cp -rp /usr/src/app/oclint-0.10.2/lib/* /usr/local/lib/
 
 # Define commonly used JAVA_HOME variable
-ENV JAVA_HOME /usr/lib/jvm/java-7-openjdk-amd64
+ENV JAVA_HOME /usr/lib/jvm/default-java
 
-#Install per critic
-RUN apt-get install libperl-critic-perl -y
+# Goland and golint
+ENV PATH=$PATH:/usr/local/go/bin:/root/go/bin
+RUN curl -O https://dl.google.com/go/go1.10.3.linux-amd64.tar.gz \
+    && tar -C /usr/local -xzf go1.10.3.linux-amd64.tar.gz \
+    && rm -rf go1.10.3.linux-amd64.tar.gz \
+    && go get -u golang.org/x/lint/golint
 
+#Install cpplint
+RUN pip install cpplint
 
 #Install ruby lint
-
-RUN apt-get install ruby -y
 RUN gem install ruby-lint
+
+# Shell linter
+RUN cabal update \
+    && cabal install shellcheck
+
+ENV PATH=$PATH:/usr/src/app:/usr/src/app/checkstyle-6.13-all.jar
+ENV CLASSPATH=$CLASSPATH:/usr/src/app/checkstyle-6.13-all.jar
+
+COPY archive.tar.gz .
+RUN tar -xvf archive.tar.gz --strip 1 \
+    && mv oclint-0.10.2/bin/oclint* /usr/local/bin/ \
+    && mv oclint-0.10.2/lib/* /usr/local/lib/ \
+    && rm -rf archive.tar.gz oclint-0.10.2
